@@ -10,4 +10,6 @@ RUN dpkg -i /tmp/openjdk-8-*.deb || apt-get -f --force-yes --yes install
 RUN dpkg -i /tmp/openjdk-8-*.deb
 RUN rm /tmp/openjdk-8-*.deb
 
+# Note: Zalando CA was automatically imported into Java trust store by Debian
+
 CMD ["java", "-version"]

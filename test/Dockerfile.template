@@ -4,3 +4,4 @@ FROM __JAVA_IMAGE__
 #FROM dockerfile/java:oracle-java8
 
 ADD jcetest /jcetest
+ADD catest /catest

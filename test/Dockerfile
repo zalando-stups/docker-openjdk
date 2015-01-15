@@ -4,3 +4,4 @@ FROM zalando/openjdk:8u40-b09-1
 #FROM dockerfile/java:oracle-java8
 
 ADD jcetest /jcetest
+ADD catest /catest
