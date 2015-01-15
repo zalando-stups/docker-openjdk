@@ -18,3 +18,8 @@ Test unlimited JCE strength and verify that the Zalando CA is correctly installe
 .. code-block::
 
     $ ./test.sh zalando/openjdk:8u40-b09-1
+
+You can find the `latest OpenJDK Docker image on Docker Hub`_.
+
+.. _latest OpenJDK Docker image on Docker Hub: https://registry.hub.docker.com/u/zalando/openjdk/
+
