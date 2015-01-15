@@ -1,8 +1,11 @@
 #!/bin/bash
 
-VER=8u40-b09-2
+VER=$(cat VERSION)
+IMG=zalando/openjdk:$VER
 
-docker build -t zalando/openjdk:$VER .
+echo "Building $IMG .."
+
+docker build -t $IMG .
 
 SQUASH_PATH=$(which docker-squash)
 
@@ -15,4 +18,4 @@ if [ -z "$SQUASH_PATH" ]; then
 fi
 
 echo 'Squashing the image to save space..'
-docker save zalando/openjdk:$VER | sudo docker-squash -t zalando/openjdk:$VER | docker load
+docker save $IMG | sudo docker-squash -t $IMG | docker load

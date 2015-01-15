@@ -1,7 +1,6 @@
 #!/bin/sh
 
-IMG=$1
-[ -z "$IMG" ] && echo "Usage: $0 <imagename>" && exit 1
+IMG=zalando/openjdk:$(cat VERSION)
 
 cd $(dirname $0)/test
 javac jcetest/JCETest.java || exit $?
