@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# example usage: 
+# exec java $(java-dynamic-memory-opts) -jar myfatjar.jar
+
+# JVM uses only 1/4 of system memory by default
+MEM_JAVA_PERCENT=80
+
+MEM_TOTAL_KB=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+MEM_JAVA_KB=$(($MEM_TOTAL_KB * $MEM_JAVA_PERCENT / 100))
+
+echo "-Xmx${MEM_JAVA_KB}k"

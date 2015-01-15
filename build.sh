@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VER=8u40-b09-1
+VER=8u40-b09-2
 
 docker build -t zalando/openjdk:$VER .
 

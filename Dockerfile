@@ -12,4 +12,7 @@ RUN rm /tmp/openjdk-8-*.deb
 
 # Note: Zalando CA was automatically imported into Java trust store by Debian
 
+ADD utils /java-utils
+ENV PATH ${PATH}:/${JAVA_HOME}/bin:/java-utils
+
 CMD ["java", "-version"]
