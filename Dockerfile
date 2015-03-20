@@ -1,4 +1,4 @@
-FROM zalando/ubuntu:14.04.1-1
+FROM zalando/ubuntu:14.04.1-2
 MAINTAINER Henning Jacobs <henning.jacobs@zalando.de>
 
 RUN apt-get update
