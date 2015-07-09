@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# example usage:
+# exec java $(newrelic-agent) -jar myfatjar.jar
+
+AGENT_JAR=/data/newrelic/newrelic.jar
+[ ! -z "$1" ] && AGENT_JAR=$1
+
+AGENT_OPTS=
+[ -f "$AGENT_JAR" ] && AGENT_OPTS=-javaagent:$AGENT_JAR
+
+echo $AGENT_OPTS
