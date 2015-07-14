@@ -1,9 +1,11 @@
 #!/bin/sh
 
+# Taupage compatible helper script for adding AppDynamics to your JVM process
+
 # example usage:
 # exec java $(appdynamics-agent) -jar myfatjar.jar
 
-AGENT_JAR=/data/appdynamics/javaagent.jar
+AGENT_JAR=/agents/appdynamics-jvm/javaagent.jar
 [ ! -z "$1" ] && AGENT_JAR=$1
 
 AGENT_OPTS=
