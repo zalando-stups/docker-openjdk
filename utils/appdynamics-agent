@@ -9,6 +9,14 @@ AGENT_JAR=/agents/appdynamics-jvm/javaagent.jar
 [ ! -z "$1" ] && AGENT_JAR=$1
 
 AGENT_OPTS=
-[ -f "$AGENT_JAR" ] && AGENT_OPTS=-javaagent:$AGENT_JAR
+if [ -f "$AGENT_JAR" ]; then
+	AGENT_OPTS=-javaagent:$AGENT_JAR
+
+	AGENT_DIR=$(dirname $AGENT_JAR)
+	AGENT_ID_FILE=$AGENT_DIR/uniqueHostId
+	if [ -f $AGENT_ID_FILE ]; then
+		AGENT_OPTS="$AGENT_OPTS -Dappdynamics.agent.uniqueHostId=$(cat $AGENT_ID_FILE)"
+	fi
+fi
 
 echo $AGENT_OPTS
