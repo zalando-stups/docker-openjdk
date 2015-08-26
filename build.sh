@@ -5,7 +5,7 @@ IMG=zalando/openjdk:$VER
 
 echo "Building $IMG .."
 
-docker build -t $IMG .
+docker build  --no-cache=true -t $IMG .
 
 SQUASH_PATH=$(which docker-squash)
 
