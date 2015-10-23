@@ -1,4 +1,4 @@
-FROM zalando/ubuntu:15.04-1
+FROM zalando/ubuntu:15.10-1
 MAINTAINER Zalando SE
 
 RUN apt-get update && apt-get install -y openjdk-8-jdk
