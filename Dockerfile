@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y openjdk-8-jdk
 
 # currently, ubuntu does not properly generate truststore for the jdk
 # workaround:
-RUN update-ca-certificates -f
+RUN apt-get -y --reinstall install ca-certificates-java && update-ca-certificates -f
 
 ADD utils /java-utils
 ENV PATH ${PATH}:/${JAVA_HOME}/bin:/java-utils

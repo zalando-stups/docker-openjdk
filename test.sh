@@ -4,6 +4,7 @@ IMG=zalando/openjdk:$(cat VERSION)
 
 cd $(dirname $0)/test
 javac jcetest/JCETest.java || exit $?
+javac ssltest/SSLTest.java || exit $?
 javac catest/CATest.java || exit $?
 
 sed "s#__JAVA_IMAGE__#$IMG#g" Dockerfile.template > Dockerfile || exit 1
@@ -14,12 +15,17 @@ JCE_RESULT=$?
 
 [ $JCE_RESULT -eq 0 ] && echo "TEST JCE: OK (JCE is unlimited)" || echo "TEST JCE: FAILED (JCE is restricted)"
 
+docker run -w / -t $IMG-test java ssltest.SSLTest
+SSL_RESULT=$?
+
+[ $SSL_RESULT -eq 0 ] && echo "TEST SSL: OK (SSL verification works)" || echo "TEST SSL: FAILED (SSL cannot be verified)"
+
 docker run -w / -t $IMG-test java catest.CATest
 CA_RESULT=$?
 
 [ $CA_RESULT -eq 0 ] && echo "TEST CA: OK (CA is trusted)" || echo "TEST CA: FAILED (CA is not trusted)"
 
-if [ $JCE_RESULT -eq 0 -a $CA_RESULT -eq 0 ]; then
+if [ $JCE_RESULT -eq 0 -a $SSL_RESULT -eq 0 -a $CA_RESULT -eq 0 ]; then
 	echo "Image verified!"
 	exit 0
 else

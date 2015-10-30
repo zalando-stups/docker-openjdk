@@ -1,13 +1,13 @@
-package catest;
+package ssltest;
 
 import java.net.URL;
 
-public final class CATest {
+public final class SSLTest {
 
 	public static void main(final String[] args) {
 		try {
-			System.out.println("Testing SSL connection to https://maui-eagle.stups-test.zalan.do/signin ...");
-			final URL url = new URL("https://maui-eagle.stups-test.zalan.do/signin");
+			System.out.println("Testing SSL connection to https://registry.opensource.zalan.do/ui/ ...");
+			final URL url = new URL("https://registry.opensource.zalan.do/ui/");
 			url.openStream();
 			System.out.println("No problems fetching the page! SSL seems to work.");
 			System.exit(0);
