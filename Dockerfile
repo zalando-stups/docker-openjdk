@@ -3,11 +3,13 @@ MAINTAINER Zalando SE
 
 RUN apt-get update && apt-get install -y openjdk-8-jdk
 
-# Note: Zalando CA was automatically imported into Java trust store by Debian
+# Note: Zalando CA should have been automatically imported into Java trust store by Debian
 
-# currently, ubuntu does not properly generate truststore for the jdk
-# workaround:
-RUN apt-get -y --reinstall install ca-certificates-java && update-ca-certificates -f
+# currently, Ubuntu 15.10 does not properly generate truststore for the JDK
+# the ca-certificates jks-keystore update.d hook does not know about java-8 :-(
+# Workaround: import all certs manually
+RUN for i in /etc/ssl/certs/*.pem; do yes | keytool -importcert -alias $i -keystore /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts -storepass changeit -file $i; done
+RUN keytool -list -keystore /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts -storepass changeit | grep zalando
 
 ADD utils /java-utils
 ENV PATH ${PATH}:/${JAVA_HOME}/bin:/java-utils
