@@ -3,7 +3,7 @@
 # example usage:
 # exec java $(newrelic-agent) -jar myfatjar.jar
 
-AGENT_JAR=/data/newrelic/newrelic.jar
+AGENT_JAR=/agents/newrelic/newrelic.jar
 [ ! -z "$1" ] && AGENT_JAR=$1
 
 AGENT_OPTS=
