@@ -19,4 +19,4 @@ if [ -z "$SQUASH_PATH" ]; then
 fi
 
 echo 'Squashing the image to save space..'
-docker save $IMG | sudo docker-squash -verbose -t $IMG | docker load
+docker save $IMG | sudo docker-squash -verbose -from root -t $IMG | docker load

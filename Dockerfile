@@ -1,7 +1,7 @@
-FROM zalando/ubuntu:15.10-2
+FROM zalando/ubuntu:15.10-3
 MAINTAINER Zalando SE
 
-RUN apt-get update && apt-get install -y openjdk-8-jdk
+RUN apt-get update && apt-get install --no-install-recommends -y openjdk-8-jdk
 
 # Note: Zalando CA should have been automatically imported into Java trust store by Debian
 
@@ -15,3 +15,5 @@ ADD utils /java-utils
 ENV PATH ${PATH}:/${JAVA_HOME}/bin:/java-utils
 
 CMD ["java", "-version"]
+
+RUN purge.sh
