@@ -1,8 +1,0 @@
-FROM __JAVA_IMAGE__
-
-# for negative testing:
-#FROM dockerfile/java:oracle-java8
-
-ADD jcetest /jcetest
-ADD ssltest /ssltest
-ADD catest /catest

@@ -1,4 +1,4 @@
-FROM zalando/ubuntu:15.10-3
+FROM registry.opensource.zalan.do/stups/docker-ubuntu:UPSTREAM
 MAINTAINER Zalando SE
 
 RUN apt-get update && apt-get install --no-install-recommends -y openjdk-8-jdk

@@ -7,19 +7,17 @@ Versions of this image will be immutable, i.e. there is no "latest" tag, but ins
 
     <OPENJDK_PACKAGE_VERSION>-<COUNTER> (example: "8u40-b09-2")
 
-Build the Docker image and squash it with a single command:
+Build and test the image like that:
 
-.. code-block::
+.. code-block:: bash
 
-    $ ./build.sh
+    $ sed -i 's/UPSTREAM/15.10-11/g' Dockerfile
+    $ docker build -t docker-ubuntu:15.10-local .
+    $ sed -i 's/UNTESTED/docker-ubuntu:15.10-local/g' Dockerfile.test
+    $ docker build -t docker-ubuntu-test:15.10-local -f Dockerfile.test .
+    $ docker run docker-ubuntu-test:15.10-local
 
-Test unlimited JCE strength and verify that the Zalando CA is correctly installed (this will only complete successfully from within Zalando):
+You can find the `latest OpenJDK Docker image in our open source registry`_.
 
-.. code-block::
-
-    $ ./test.sh
-
-You can find the `latest OpenJDK Docker image on Docker Hub`_.
-
-.. _latest OpenJDK Docker image on Docker Hub: https://registry.hub.docker.com/u/zalando/openjdk/
+.. _latest OpenJDK Docker image in our open source registry: https://registry.opensource.zalan.do/teams/stups/artifacts/docker-openjdk/tags
 
