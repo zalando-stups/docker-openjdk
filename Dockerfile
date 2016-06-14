@@ -1,4 +1,4 @@
-FROM registry.opensource.zalan.do/stups/alpine:3.4-2
+FROM registry.opensource.zalan.do/stups/alpine:UPSTREAM
 MAINTAINER Zalando SE
 
 RUN apk update && apk add openjdk8
