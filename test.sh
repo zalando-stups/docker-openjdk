@@ -2,10 +2,11 @@
 
 cd $(dirname $0)/test
 
-echo "Building test suite..."
-javac jcetest/JCETest.java || exit $?
-javac ssltest/SSLTest.java || exit $?
-javac catest/CATest.java || exit $?
+# JDK (javac) is not available in Alpine, assume class files exist..
+#echo "Building test suite..."
+#javac jcetest/JCETest.java || exit $?
+#javac ssltest/SSLTest.java || exit $?
+#javac catest/CATest.java || exit $?
 
 echo "Running tests..."
 
