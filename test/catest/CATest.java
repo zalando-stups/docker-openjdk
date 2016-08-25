@@ -6,7 +6,7 @@ public final class CATest {
 
 	public static void main(final String[] args) {
 		try {
-			System.out.println("Testing SSL connection to https://ssl-test.stups-test.zalan.do/ ...");
+			System.out.println("Testing SSL connection to https://zalando-ca-test.stups.zalan.do/ ...");
 			final URL url = new URL("https://zalando-ca-test.stups.zalan.do/");
 			url.openStream();
 			System.out.println("No problems fetching the page! SSL seems to work.");
