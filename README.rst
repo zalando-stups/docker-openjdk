@@ -15,7 +15,7 @@ Build and test the image like that:
     $ docker build -t openjdk:local .
     $ sed -i 's/UNTESTED/openjdk:local/g' Dockerfile.test
     $ docker build -t openjdk-test:local -f Dockerfile.test .
-    $ docker run openjdk-test:-local
+    $ docker run openjdk-test:local
 
 You can find the `latest OpenJDK Docker image in our open source registry`_.
 
