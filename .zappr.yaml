@@ -1,0 +1,10 @@
+approvals:
+  minimum: 2
+  from:
+    # commenter must be either one of:
+    orgs:
+      # a public zalando org member
+      # (any org in here counts)
+      - zalando
+
+X-Zalando-Team: stups

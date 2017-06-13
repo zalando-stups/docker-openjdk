@@ -1,4 +1,4 @@
-FROM registry.opensource.zalan.do/stups/ubuntu:UPSTREAM
+FROM registry.opensource.zalan.do/stups/ubuntu:latest
 MAINTAINER Zalando SE
 
 RUN apt-get update && apt-get install --no-install-recommends -y openjdk-8-jdk
