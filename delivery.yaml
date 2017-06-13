@@ -15,9 +15,9 @@ build_steps:
         docker build -t $image-test -f Dockerfile.test .
         # get current Java version
         out=$(docker run $image-test)
-        echo $out
+        echo "$out"
         # e.g. 'openjdk version "1.8.0_131"'
-        version=$(echo $out | grep 'openjdk version' | tr -d '"' | tr '_' '-' | awk '{ print $3 }')
+        version=$(echo "$out" | grep 'openjdk version' | tr -d '"' | tr '_' '-' | awk '{ print $3 }')
         release=registry-write.opensource.zalan.do/stups/openjdk:$version-${CDP_TARGET_BRANCH_COUNTER}
         docker tag $image $release
         docker push $release
