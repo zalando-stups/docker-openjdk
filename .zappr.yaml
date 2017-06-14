@@ -1,10 +1,10 @@
+# Every PR needs two approvals from Zalando employees.
 approvals:
-  minimum: 2
-  from:
-    # commenter must be either one of:
-    orgs:
-      # a public zalando org member
-      # (any org in here counts)
-      - zalando
+  groups:
+    zalando:
+      minimum: 2
+      from:
+        orgs:
+          - zalando
 
 X-Zalando-Team: stups
