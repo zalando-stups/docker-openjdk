@@ -2,15 +2,24 @@ build_steps:
     - desc: 'Install required build software'
       cmd: 'apt-get install -y make git apt-transport-https ca-certificates curl'
     - desc: 'Install Docker'
-      cmd: 'curl -sSL https://get.docker.com/ | sh'
-    - desc: 'Install docker-squash'
-      cmd: 'curl -sL https://github.com/jwilder/docker-squash/releases/download/v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz | tar -xvz'
+      cmd: |
+        # enable experimental features (--squash)
+        mkdir -p /etc/systemd/system/docker.service.d
+        cat << EOF > /etc/systemd/system/docker.service.d/docker.conf
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/dockerd -H fd:// --experimental=true
+        EOF
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+        apt-key fingerprint 0EBFCD88
+        add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        apt-get update
+        apt-get install -y docker-ce
+        systemctl status docker
     - desc: 'Build'
       cmd: |
         image=openjdk-temp:${CDP_BUILD_VERSION}
-        docker build -t $image .
-        # squash to one layer
-        docker save $image | ./docker-squash -verbose -from root -t $image | docker load
+        docker build -t $image --squash .
         sed -i "s,UNTESTED,$image,g" Dockerfile.test
         docker build -t $image-test -f Dockerfile.test .
         # get current Java version
@@ -19,5 +28,9 @@ build_steps:
         # e.g. 'openjdk version "1.8.0_131"'
         version=$(echo "$out" | grep 'openjdk version' | tr -d '"' | tr '_' '-' | awk '{ print $3 }')
         release=registry-write.opensource.zalan.do/stups/openjdk:$version-${CDP_TARGET_BRANCH_COUNTER}
-        docker tag $image $release
-        docker push $release
+        IS_PR_BUILD=${CDP_PULL_REQUEST_NUMBER+"true"}
+        if [[ $CDP_TARGET_BRANCH == "master" && ${IS_PR_BUILD} != "true" ]]
+        then
+            docker tag $image $release
+            docker push $release
+        fi
