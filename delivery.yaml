@@ -1,3 +1,7 @@
+dependencies:
+    - id: base
+      type: docker
+      ref: registry.opensource.zalan.do/stups/ubuntu
 build_steps:
     - desc: 'Install required build software'
       cmd: 'apt-get install -y make git apt-transport-https ca-certificates curl'
@@ -5,6 +9,9 @@ build_steps:
       cmd: 'curl -sSL https://delivery.cloud.zalando.com/utils/ensure-docker | sh'
     - desc: 'Build'
       cmd: |
+        # use the resolved Ubuntu base image version
+        echo "Ubuntu base image version: ${DEP_BASE_VERSION}"
+        sed -i "s,:latest,:${DEP_BASE_VERSION}," Dockerfile
         image=openjdk-temp:${CDP_BUILD_VERSION}
         docker build -t $image --squash .
         sed -i "s,UNTESTED,$image,g" Dockerfile.test
