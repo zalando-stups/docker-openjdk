@@ -1,8 +1,12 @@
+version: "2017-09-20"
 dependencies:
     - id: base
       type: docker
       ref: registry.opensource.zalan.do/stups/ubuntu
-build_steps:
+pipeline:
+  - id: build
+    type: script
+    commands:
     - desc: 'Install required build software'
       cmd: 'apt-get install -y make git apt-transport-https ca-certificates curl'
     - desc: 'Install Docker'
@@ -22,9 +26,11 @@ build_steps:
         # e.g. 'openjdk version "1.8.0_131"'
         version=$(echo "$out" | grep 'openjdk version' | tr -d '"' | tr '_' '-' | awk '{ print $3 }')
         release=registry-write.opensource.zalan.do/stups/openjdk:$version-${CDP_TARGET_BRANCH_COUNTER}
+        docker tag $image $release
         IS_PR_BUILD=${CDP_PULL_REQUEST_NUMBER+"true"}
-        if [[ $CDP_TARGET_BRANCH == "master" && ${IS_PR_BUILD} != "true" ]]
+        if [[ ${IS_PR_BUILD} != "true" ]]
         then
-            docker tag $image $release
             docker push $release
+        else
+            echo "Image not pushed because the build is not a push to master"
         fi
