@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-# example usage: 
+# example usage:
 # exec java $(java-dynamic-memory-opts 80) -jar myfatjar.jar
 
 # JVM uses only 1/4 of system memory by default
@@ -14,10 +14,19 @@ if [ -z "$MEM_JAVA_PERCENT" ]; then
     fi
 fi
 
-# MEM_TOTAL_KB can be set from the outside, this is important for container-based infrastructure:
-# /proc/meminfo would return the host/node capacity and not the container's limit
+# Take the lower of /sys/fs/cgroup/memory/memory.limit_in_bytes and
+# /proc/meminfo. This takes into account memory limits set by containers
+# Setting MEM_TOTAL_KB is still supported
 if [ -z "$MEM_TOTAL_KB" ]; then
-    MEM_TOTAL_KB=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+    MEM_LIMIT_CGROUP=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
+    ((MEM_LIMIT_CGROUP=$MEM_LIMIT_CGROUP / 1024))
+    MEM_TOTAL=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
+    if [[ $MEM_LIMIT_CGROUP -gt $MEM_TOTAL ]]
+    then
+        MEM_TOTAL_KB=$MEM_TOTAL
+    else
+        MEM_TOTAL_KB=$MEM_LIMIT_CGROUP
+    fi
 fi
 MEM_JAVA_KB=$(($MEM_TOTAL_KB * $MEM_JAVA_PERCENT / 100))
 
