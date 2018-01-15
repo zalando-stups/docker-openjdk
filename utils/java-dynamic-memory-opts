@@ -18,7 +18,7 @@ fi
 # /proc/meminfo. This takes into account memory limits set by containers
 # Setting MEM_TOTAL_KB is still supported
 if [ -z "$MEM_TOTAL_KB" ]; then
-    MEM_LIMIT_CGROUP=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
+    MEM_LIMIT_CGROUP=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes 2>/dev/null || echo 9223372036854771712)
     ((MEM_LIMIT_CGROUP=$MEM_LIMIT_CGROUP / 1024))
     MEM_TOTAL=$(cat /proc/meminfo | grep MemTotal | awk '{print $2}')
     if [[ $MEM_LIMIT_CGROUP -gt $MEM_TOTAL ]]
