@@ -1,7 +1,8 @@
 FROM registry.opensource.zalan.do/stups/ubuntu:latest
 MAINTAINER Zalando SE
 
-RUN apt-get update && apt-get install --no-install-recommends -y openjdk-8-jdk
+# mkdir required because of https://github.com/resin-io-library/base-images/issues/273
+RUN mkdir /usr/share/man/man1 && apt-get update && apt-get install --no-install-recommends -y openjdk-8-jdk
 
 # Note: Zalando CA should have been automatically imported into Java trust store by Debian
 
