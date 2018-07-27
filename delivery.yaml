@@ -7,8 +7,6 @@ pipeline:
   - id: build
     type: script
     commands:
-    - desc: 'Install required build software'
-      cmd: 'apt-get install -y make git apt-transport-https ca-certificates curl'
     - desc: 'Install Docker'
       cmd: 'curl -sSL https://delivery.cloud.zalando.com/utils/ensure-docker | sh'
     - desc: 'Build'
