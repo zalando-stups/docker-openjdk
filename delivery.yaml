@@ -9,26 +9,7 @@ pipeline:
     commands:
     - desc: 'Install Docker'
       cmd: 'curl -sSL https://delivery.cloud.zalando.com/utils/ensure-docker | sh'
-    - desc: 'Build'
-      cmd: |
-        # use the resolved Ubuntu base image version
-        echo "Ubuntu base image version: ${DEP_BASE_VERSION}"
-        sed -i "s,:latest,:${DEP_BASE_VERSION}," Dockerfile
-        image=openjdk-temp:${CDP_BUILD_VERSION}
-        docker build -t $image --squash .
-        sed -i "s,UNTESTED,$image,g" Dockerfile.test
-        docker build -t $image-test -f Dockerfile.test .
-        # get current Java version
-        out=$(docker run $image-test 2>&1)
-        echo "$out"
-        # e.g. 'openjdk version "1.8.0_131"'
-        version=$(echo "$out" | grep 'openjdk version' | tr -d '"' | tr '_' '-' | awk '{ print $3 }')
-        release=registry-write.opensource.zalan.do/stups/openjdk:$version-${CDP_TARGET_BRANCH_COUNTER}
-        docker tag $image $release
-        IS_PR_BUILD=${CDP_PULL_REQUEST_NUMBER+"true"}
-        if [[ ${IS_PR_BUILD} != "true" ]]
-        then
-            docker push $release
-        else
-            echo "Image not pushed because the build is not a push to master"
-        fi
+    - desc: 'Build JDK 8 image'
+      cmd: ./build.sh 8
+    - desc: 'Build JDK 11 image'
+      cmd: ./build.sh 11
