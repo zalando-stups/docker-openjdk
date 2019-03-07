@@ -21,4 +21,8 @@ if [ -z "$MEM_TOTAL_KB" ]; then
 fi
 MEM_JAVA_KB=$(($MEM_TOTAL_KB * $MEM_JAVA_PERCENT / 100))
 
-echo "-Xmx${MEM_JAVA_KB}k"
+if [ -z "MEM_JAVA_XMX_EQ_XMS" ]; then
+    echo "-Xmx${MEM_JAVA_KB}k"
+else
+    echo "-Xmx${MEM_JAVA_KB}k -Xms${MEM_JAVA_KB}k"
+fi
