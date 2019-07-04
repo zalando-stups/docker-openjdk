@@ -11,7 +11,6 @@ Build and test the image like that:
 
 .. code-block:: bash
 
-    $ sed -i 's/UPSTREAM/15.10-11/g' Dockerfile
     $ docker build -t openjdk:local .
     $ sed -i 's/UNTESTED/openjdk:local/g' Dockerfile.test
     $ docker build -t openjdk-test:local -f Dockerfile.test .
