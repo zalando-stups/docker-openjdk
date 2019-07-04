@@ -13,7 +13,8 @@ RUN for i in /etc/ssl/certs/*.pem; do yes | keytool -importcert -alias $i -keyst
 RUN keytool -list -keystore /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts -storepass changeit | grep zalando
 
 ADD utils /java-utils
-ENV PATH ${PATH}:/${JAVA_HOME}/bin:/java-utils
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV PATH ${PATH}:${JAVA_HOME}/bin:/java-utils
 
 CMD ["java", "-version"]
 
